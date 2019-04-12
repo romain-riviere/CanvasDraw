@@ -1,4 +1,2 @@
-<!-- Generated template for the CanvasDrawComponent component -->
-<div>
-  {{text}}
-</div>
+<canvas #canvasDraw (touchstart)="handleStart($event)" (touchmove)="handleMove($event)"
+  (touchend)="handleEnd($event)"></canvas>
