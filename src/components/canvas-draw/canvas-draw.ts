@@ -1,5 +1,5 @@
-import { Component, ViewChild, Renderer } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Component, ViewChild, Renderer, ElementRef } from '@angular/core';
+import { Platform, FabContainer } from 'ionic-angular';
 
 @Component({
   selector: 'canvas-draw',
@@ -7,12 +7,16 @@ import { Platform } from 'ionic-angular';
 })
 export class CanvasDraw {
 
-  @ViewChild('canvasDraw') canvas: any;
+  @ViewChild('canvasDraw') canvas: ElementRef;
+  @ViewChild('switchColorButton') switchColorButton: FabContainer;
 
   canvasElement: any;
 
   lastX: number;
   lastY: number;
+
+  colorId: number = 0;
+  colors: string[] = ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFFFF'];
 
   constructor(
     public platform: Platform,
@@ -23,6 +27,7 @@ export class CanvasDraw {
     this.canvasElement = this.canvas.nativeElement;
     this.renderer.setElementAttribute(this.canvasElement, 'width', this.platform.width() + '');
     this.renderer.setElementAttribute(this.canvasElement, 'height', this.platform.height() + '');
+    this.reloadButtonColors();
   }
 
   handleStart(event) {
@@ -40,7 +45,7 @@ export class CanvasDraw {
     ctx.moveTo(this.lastX, this.lastY);
     ctx.lineTo(currentX, currentY);
     ctx.closePath();
-    ctx.strokeStyle = '#000';
+    ctx.strokeStyle = this.colors[this.colorId];
     ctx.lineWidth = 5;
     ctx.stroke();
 
@@ -48,6 +53,21 @@ export class CanvasDraw {
     this.lastY = currentY;
   }
 
+  reloadButtonColors() {
+    this.switchColorButton._mainButton.setElementStyle('background-color', this.colors[this.colorId]);
+    //this.switchColorButton._mainButton.setElementStyle('color', 'black');
+    this.switchColorButton._fabLists.first._fabs.forEach(
+      (fab, index, arr) => {
+        fab.setElementStyle('background-color', this.colors[index]);
+      }
+    )
+  }
+
   handleEnd(event) {
+  }
+
+  switchColor(index: number) {
+    this.colorId = index;
+    this.reloadButtonColors();
   }
 }

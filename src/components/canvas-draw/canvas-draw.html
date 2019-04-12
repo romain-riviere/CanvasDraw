@@ -1,2 +1,11 @@
 <canvas #canvasDraw (touchstart)="handleStart($event)" (touchmove)="handleMove($event)"
   (touchend)="handleEnd($event)"></canvas>
+<ion-fab #switchColorButton bottom right>
+  <button ion-fab mini>
+    <ion-icon name="color-palette"></ion-icon>
+  </button>
+  <ion-fab-list side="top">
+    <button *ngFor="let color of colors; let i = index" (click)="switchColor(i)" #switchColorButton{{i}}
+      ion-fab></button>
+  </ion-fab-list>
+</ion-fab>
