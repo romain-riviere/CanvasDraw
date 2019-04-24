@@ -17,16 +17,6 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
-
-      var config = {
-        apiKey: "AIzaSyC_nRo2ZLPTf-SqdkSHt2ifYoFqcJ9YuN0",
-        authDomain: "drawchain-dfa14.firebaseapp.com",
-        databaseURL: "https://drawchain-dfa14.firebaseio.com",
-        projectId: "drawchain-dfa14",
-        storageBucket: "drawchain-dfa14.appspot.com",
-        messagingSenderId: "746500218867"
-      };
-      firebase.initializeApp(config);
     });
   }
 }
