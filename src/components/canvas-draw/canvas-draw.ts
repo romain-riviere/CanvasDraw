@@ -72,13 +72,16 @@ export class CanvasDraw {
       this.lastStates.push(ctx.getImageData(0, 0, this.canvasElement.width, this.canvasElement.height));
       if (this.lastStates.length > 20) this.lastStates.splice(0, 1);
       this.actualState = this.lastStates.length - 1;
-      this.isDrawing = false;
     }
+    this.isDrawing = !this.isDrawing;
   }
 
   clearDraw() {
     let ctx = this.canvasElement.getContext('2d');
     ctx.clearRect(0, 0, this.canvasElement.width, this.canvasElement.height);
+    this.lastStates.push(ctx.getImageData(0, 0, this.canvasElement.width, this.canvasElement.height));
+    if (this.lastStates.length > 20) this.lastStates.splice(0, 1);
+    this.actualState = this.lastStates.length - 1;
   }
 
   switchColor(index: number) {

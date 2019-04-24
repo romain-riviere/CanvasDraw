@@ -1,64 +1,46 @@
 <canvas #canvasDraw (touchstart)="handleStart($event)" (touchmove)="handleMove($event)"
   (touchend)="handleEnd($event)"></canvas>
-<div [hidden]="isDrawing">
-  <ion-fab bottom center>
-    <button (click)="isDrawing = true" ion-fab mini [style.background-color]="'black'" [style.color]="'white'">
-      <ion-icon name="close"></ion-icon>
-    </button>
-  </ion-fab>
 
-  <ion-fab bottom left>
-    <button (click)="getDrawFromRemote()" ion-fab mini [style.background-color]="'black'" [style.color]="'white'">
-      <ion-icon name="cloud-download"></ion-icon>
-    </button>
-  </ion-fab>
+<ion-fab #switchLineWidthButton bottom right style="margin-right: 45px;" class="bottomButton"
+  [ngClass]="{'hidden': isDrawing}">
+  <button ion-fab mini [style.background-color]="currentColor"
+    [style.color]="isColorLight(currentColor) ? 'black' : 'white'">
+    <ion-icon name="brush"></ion-icon>
+  </button>
+  <ion-fab-list side="top">
+    <button ion-fab [style.width.px]="lineWidths[i]" [style.height.px]="lineWidths[i]"
+      [style.background-color]="currentColor" *ngFor="let lineWidth of lineWidths; let i = index"
+      (click)="switchLineWidth(i)" #switchLineWidthButton{{i}}></button>
+  </ion-fab-list>
+</ion-fab>
 
-  <ion-fab bottom left style="margin-left: 45px;">
-    <button (click)="pushDrawToRemote()" ion-fab mini [style.background-color]="'black'" [style.color]="'white'">
-      <ion-icon name="cloud-upload"></ion-icon>
-    </button>
-  </ion-fab>
+<ion-fab #switchColorButton bottom right class="bottomButton" [ngClass]="{'hidden': isDrawing}">
+  <button ion-fab mini [style.background-color]="currentColor"
+    [style.color]="isColorLight(currentColor) ? 'black' : 'white'">
+    <ion-icon name="color-palette"></ion-icon>
+  </button>
+  <ion-fab-list side="top">
+    <button ion-fab [style.background-color]="colors[i]" *ngFor="let color of colors; let i = index"
+      (click)="switchColor(i)" #switchColorButton{{i}}></button>
+  </ion-fab-list>
+</ion-fab>
 
-  <ion-fab top right>
-    <button (click)="clearDraw()" ion-fab mini [style.background-color]="'black'" [style.color]="'white'">
-      <ion-icon name="trash"></ion-icon>
-    </button>
-  </ion-fab>
+<ion-fab top right class="topButton" [ngClass]="{'hidden': isDrawing}">
+  <button (click)="clearDraw()" ion-fab mini [style.background-color]="'black'" [style.color]="'white'">
+    <ion-icon name="trash"></ion-icon>
+  </button>
+</ion-fab>
 
-  <ion-fab top right style="margin-right: 45px;">
-    <button (click)="redoDraw()" ion-fab mini
-      [style.background-color]="(actualState + 1) < lastStates.length ? 'black' : 'gray'" [style.color]="'white'">
-      <ion-icon name="redo"></ion-icon>
-    </button>
-  </ion-fab>
+<ion-fab top right style="margin-right: 45px;" class="topButton" [ngClass]="{'hidden': isDrawing}">
+  <button (click)="redoDraw()" ion-fab mini
+    [style.background-color]="(actualState + 1) < lastStates.length ? 'black' : 'gray'" [style.color]="'white'">
+    <ion-icon name="redo"></ion-icon>
+  </button>
+</ion-fab>
 
-  <ion-fab top right style="margin-right: 90px;">
-    <button (click)="undoDraw()" ion-fab mini [style.background-color]="actualState > 0 ? 'black' : 'gray'"
-      [style.color]="'white'">
-      <ion-icon name="undo"></ion-icon>
-    </button>
-  </ion-fab>
-
-  <ion-fab #switchColorButton bottom right>
-    <button ion-fab mini [style.background-color]="currentColor"
-      [style.color]="isColorLight(currentColor) ? 'black' : 'white'">
-      <ion-icon name="color-palette"></ion-icon>
-    </button>
-    <ion-fab-list side="top">
-      <button ion-fab [style.background-color]="colors[i]" *ngFor="let color of colors; let i = index"
-        (click)="switchColor(i)" #switchColorButton{{i}}></button>
-    </ion-fab-list>
-  </ion-fab>
-
-  <ion-fab #switchLineWidthButton bottom right style="margin-right: 45px;">
-    <button ion-fab mini [style.background-color]="currentColor"
-      [style.color]="isColorLight(currentColor) ? 'black' : 'white'">
-      <ion-icon name="brush"></ion-icon>
-    </button>
-    <ion-fab-list side="top">
-      <button ion-fab [style.width.px]="lineWidths[i]" [style.height.px]="lineWidths[i]"
-        [style.background-color]="currentColor" *ngFor="let lineWidth of lineWidths; let i = index"
-        (click)="switchLineWidth(i)" #switchLineWidthButton{{i}}></button>
-    </ion-fab-list>
-  </ion-fab>
-</div>
+<ion-fab top right style="margin-right: 90px;" class="topButton" [ngClass]="{'hidden': isDrawing}">
+  <button (click)="undoDraw()" ion-fab mini [style.background-color]="actualState > 0 ? 'black' : 'gray'"
+    [style.color]="'white'">
+    <ion-icon name="undo"></ion-icon>
+  </button>
+</ion-fab>

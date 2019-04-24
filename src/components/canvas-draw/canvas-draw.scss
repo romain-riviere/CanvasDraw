@@ -2,4 +2,20 @@ canvas-draw {
     height: 100%;
     width: 100%;
     display: block;
+    .bottomButton{
+        -webkit-transition: -webkit-transform 300ms ease;
+        transition: transform 300ms ease;
+    }
+    .bottomButton.hidden {
+        -webkit-transform: translateY(100px);
+        transform: translateY(100px);
+    }
+    .topButton{
+        -webkit-transition: -webkit-transform 300ms ease;
+        transition: transform 300ms ease;
+    }
+    .topButton.hidden {
+        -webkit-transform: translateY(-100px);
+        transform: translateY(-100px);
+    }
 }
