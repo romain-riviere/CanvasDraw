@@ -9,3 +9,5 @@ This is an example application with a drawing component. It have the ability to 
 - `npm install`
 - `npm install -g ionic`
 - `ionic serve`
+
+![Screenshot](https://zupimages.net/up/19/19/fmbv.png)
